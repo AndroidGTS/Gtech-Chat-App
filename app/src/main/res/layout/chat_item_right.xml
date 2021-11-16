@@ -21,28 +21,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grey"
+            android:layout_below="@+id/show_message"
             android:textSize="12sp"
             android:text=""
             android:layout_marginRight="@dimen/margin_10_dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/show_message"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             />
 
         <TextView
+            android:id="@+id/show_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_right"
             android:layout_alignParentEnd="true"
-            android:id="@+id/show_message"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/background_right"
             android:lineSpacingExtra="2dp"
             android:paddingLeft="20dp"
             android:paddingTop="4dp"
             android:paddingRight="20dp"
             android:paddingBottom="10dp"
-            android:text="Hi, How are you?"
+            android:text="Hi"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:layout_alignParentRight="true" />
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +53,7 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:layout_marginRight="15dp"
-            android:layout_below="@id/show_message"
+            android:layout_below="@id/time_tv"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
