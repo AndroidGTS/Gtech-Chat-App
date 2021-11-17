@@ -1,62 +1,60 @@
-package com.gtechapps.chatmessager;
+package com.gtechapps.chatmessager
 
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
+import android.content.Intent
+import android.graphics.Typeface
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-public class StartActivity extends AppCompatActivity {
-
-    Button login, register;
-    TextView chat_title_tv;
-    Typeface MR, MRR;
-
-    FirebaseUser firebaseUser;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+class StartActivity : AppCompatActivity() {
+    var login: Button? = null
+    var register: Button? = null
+    var chat_title_tv: TextView? = null
+    var MR: Typeface? = null
+    var MRR: Typeface? = null
+    var firebaseUser: FirebaseUser? = null
+    override fun onStart() {
+        super.onStart()
+        firebaseUser = FirebaseAuth.getInstance().currentUser
 
         //check if user is null
         if (firebaseUser != null) {
-            Intent intent = new Intent(StartActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            val intent = Intent(this@StartActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-
-        MRR = Typeface.createFromAsset(getAssets(), "fonts/myriadregular.ttf");
-        MR = Typeface.createFromAsset(getAssets(), "fonts/myriad.ttf");
-
-
-        login = findViewById(R.id.login);
-        register = findViewById(R.id.register);
-        chat_title_tv = findViewById(R.id.chat_title_tv);
-
-        login.setTypeface(MR);
-        register.setTypeface(MR);
-        chat_title_tv.setTypeface(MR);
-
-        login.setOnClickListener(view -> {
-            startActivity(new Intent(StartActivity.this, LoginActivity.class));
-        });
-
-        register.setOnClickListener(view -> {
-            startActivity(new Intent(StartActivity.this, RegisterActivity.class));
-        });
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_start)
+        MRR = Typeface.createFromAsset(assets, "fonts/myriadregular.ttf")
+        MR = Typeface.createFromAsset(assets, "fonts/myriad.ttf")
+        login = findViewById(R.id.login)
+        register = findViewById(R.id.register)
+        chat_title_tv = findViewById(R.id.chat_title_tv)
+        login!!.typeface = MR
+        register!!.typeface = MR
+        chat_title_tv!!.typeface = MR
+        login!!.setOnClickListener { view: View? ->
+            startActivity(
+                Intent(
+                    this@StartActivity,
+                    LoginActivity::class.java
+                )
+            )
+        }
+        register!!.setOnClickListener { view: View? ->
+            startActivity(
+                Intent(
+                    this@StartActivity,
+                    RegisterActivity::class.java
+                )
+            )
+        }
     }
 }

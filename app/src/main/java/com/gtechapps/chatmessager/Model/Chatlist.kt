@@ -1,20 +1,11 @@
-package com.gtechapps.chatmessager.Model;
+package com.gtechapps.chatmessager.Model
 
-public class Chatlist {
-    public String id;
+class Chatlist {
+    var id: String? = null
 
-    public Chatlist(String id) {
-        this.id = id;
+    constructor(id: String?) {
+        this.id = id
     }
 
-    public Chatlist() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    constructor()
 }

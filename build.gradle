@@ -1,5 +1,6 @@
 buildscript {
-    
+    ext.kotlin_version = '1.6.0'
+
     repositories {
         google()
         //noinspection JcenterRepositoryObsolete
@@ -9,6 +10,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.3'
         classpath 'com.google.gms:google-services:4.3.10'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 

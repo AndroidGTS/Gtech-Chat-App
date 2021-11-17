@@ -1,0 +1,130 @@
+{
+  "project_info": {
+    "project_number": "909978437630",
+    "firebase_url": "https://gts-client-38207-default-rtdb.firebaseio.com",
+    "project_id": "gts-client-38207",
+    "storage_bucket": "gts-client-38207.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909978437630:android:8e0d6f9d03886d0e0de2af",
+        "android_client_info": {
+          "package_name": "com.carry.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909978437630-0bipjndi6u42f01d008c33g7tevj8ni7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT4jTsHBkHKFz4cK7IpzAeMMvVanVBml0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909978437630-0bipjndi6u42f01d008c33g7tevj8ni7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909978437630:android:2f39eabf34da909f0de2af",
+        "android_client_info": {
+          "package_name": "com.gtechapps.chatmessager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909978437630-1rt7t3accl82dtjl7aa2es2nmll6kmg7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gtechapps.chatmessager",
+            "certificate_hash": "4b48a517d7d6ed0535a6b40316f99c3679a67c7a"
+          }
+        },
+        {
+          "client_id": "909978437630-0bipjndi6u42f01d008c33g7tevj8ni7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT4jTsHBkHKFz4cK7IpzAeMMvVanVBml0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909978437630-0bipjndi6u42f01d008c33g7tevj8ni7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909978437630:android:be1b45bda4ec28370de2af",
+        "android_client_info": {
+          "package_name": "com.tribata.merchant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909978437630-fh1qfr2q06ckedu2uh68kjic879hc28g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tribata.merchant",
+            "certificate_hash": "041152da4d0e7e2a407860f1798ba52e84b16fb0"
+          }
+        },
+        {
+          "client_id": "909978437630-plv68rpomvsplgmnev27v4l4m22v1hu1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tribata.merchant",
+            "certificate_hash": "e8147c0025cb25a3bfeef8632ddbd1776e533f36"
+          }
+        },
+        {
+          "client_id": "909978437630-rv22hleejsrviqgescr56tcjfcud8ogc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tribata.merchant",
+            "certificate_hash": "033ca74aebd1a719fd2926996221fc035527f806"
+          }
+        },
+        {
+          "client_id": "909978437630-0bipjndi6u42f01d008c33g7tevj8ni7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT4jTsHBkHKFz4cK7IpzAeMMvVanVBml0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909978437630-0bipjndi6u42f01d008c33g7tevj8ni7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

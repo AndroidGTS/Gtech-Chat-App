@@ -1,44 +1,42 @@
-package com.gtechapps.chatmessager;
+package com.gtechapps.chatmessager
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.app.Activity
+import android.app.ProgressDialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.View
+import android.view.WindowManager.BadTokenException
+import android.view.inputmethod.InputMethodManager
 
-public class Utils {
-
-    public static ProgressDialog showLoader(Context context) {
-        ProgressDialog dialog = new ProgressDialog(context);
+object Utils {
+    @JvmStatic
+    fun showLoader(context: Context?): ProgressDialog {
+        val dialog = ProgressDialog(context)
         try {
-            dialog.show();
-        } catch (WindowManager.BadTokenException e) {
-
+            dialog.show()
+        } catch (e: BadTokenException) {
         }
-        dialog.setCancelable(false);
-        dialog.getWindow()
-                .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setContentView(R.layout.progressdialog);
-        return dialog;
+        dialog.setCancelable(false)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.progressdialog)
+        return dialog
     }
 
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+    @JvmStatic
+    fun hideKeyboard(activity: Activity) {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
+        var view = activity.currentFocus
         //If no view currently has focus, create a new one, just so we can grab a window token from it
         if (view == null) {
-            view = new View(activity);
+            view = View(activity)
         }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    public static void hideLoader(ProgressDialog dialog) {
+    fun hideLoader(dialog: ProgressDialog?) {
         // To dismiss the dialog
-        if (dialog != null) {
-            dialog.dismiss();
-        }
+        dialog?.dismiss()
     }
 }

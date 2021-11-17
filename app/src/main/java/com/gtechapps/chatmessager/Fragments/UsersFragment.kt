@@ -1,173 +1,134 @@
-package com.gtechapps.chatmessager.Fragments;
+package com.gtechapps.chatmessager.Fragments
 
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.graphics.Typeface
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.gtechapps.chatmessager.Adapter.OnItemClick
+import com.gtechapps.chatmessager.Adapter.UserAdapter
+import com.gtechapps.chatmessager.Model.User
+import com.gtechapps.chatmessager.R
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+class UsersFragment : Fragment() {
+    var MR: Typeface? = null
+    var MRR: Typeface? = null
+    var frameLayout: FrameLayout? = null
+    var es_descp: TextView? = null
+    var es_title: TextView? = null
+    var search_users: EditText? = null
+    private var recyclerView: RecyclerView? = null
+    private var userAdapter: UserAdapter? = null
+    private var mUsers: ArrayList<User?>? = null
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_users, container, false)
+        MRR = Typeface.createFromAsset(requireContext().assets, "fonts/myriadregular.ttf")
+        MR = Typeface.createFromAsset(requireContext().assets, "fonts/myriad.ttf")
+        recyclerView = view.findViewById(R.id.recycler_view)
+        frameLayout = view.findViewById(R.id.es_layout)
+        es_descp = view.findViewById(R.id.es_descp)
+        es_title = view.findViewById(R.id.es_title)
+        es_descp!!.setTypeface(MR)
+        es_title!!.setTypeface(MRR)
+        recyclerView!!.setHasFixedSize(true)
+        recyclerView!!.layoutManager = LinearLayoutManager(context)
+        val dividerItemDecoration =
+            DividerItemDecoration(recyclerView!!.context, DividerItemDecoration.VERTICAL)
+        recyclerView!!.addItemDecoration(dividerItemDecoration)
+        mUsers = ArrayList()
+        readUsers()
+        search_users = view.findViewById(R.id.search_users)
+        search_users!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                searchUsers(charSequence.toString().lowercase(Locale.getDefault()))
+            }
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.gtechapps.chatmessager.Adapter.OnItemClick;
-import com.gtechapps.chatmessager.Adapter.UserAdapter;
-import com.gtechapps.chatmessager.Model.User;
-import com.gtechapps.chatmessager.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
-
-public class UsersFragment extends Fragment {
-
-    static OnItemClick onItemClick;
-    Typeface MR, MRR;
-    FrameLayout frameLayout;
-    TextView es_descp, es_title;
-    EditText search_users;
-    private RecyclerView recyclerView;
-    private UserAdapter userAdapter;
-    private List<User> mUsers;
-
-    public static UsersFragment newInstance(OnItemClick click) {
-        onItemClick = click;
-        Bundle args = new Bundle();
-
-        UsersFragment fragment = new UsersFragment();
-        fragment.setArguments(args);
-        return fragment;
+            override fun afterTextChanged(editable: Editable) {}
+        })
+        return view
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_users, container, false);
-
-
-        MRR = Typeface.createFromAsset(getContext().getAssets(), "fonts/myriadregular.ttf");
-        MR = Typeface.createFromAsset(getContext().getAssets(), "fonts/myriad.ttf");
-
-        recyclerView = view.findViewById(R.id.recycler_view);
-        frameLayout = view.findViewById(R.id.es_layout);
-        es_descp = view.findViewById(R.id.es_descp);
-        es_title = view.findViewById(R.id.es_title);
-
-        es_descp.setTypeface(MR);
-        es_title.setTypeface(MRR);
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-        mUsers = new ArrayList<>();
-
-        readUsers();
-
-        search_users = view.findViewById(R.id.search_users);
-        search_users.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                searchUsers(charSequence.toString().toLowerCase());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        return view;
-    }
-
-    private void searchUsers(String s) {
-
-        final FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("search")
-                .startAt(s)
-                .endAt(s + "\uf8ff");
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUsers.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    User user = snapshot.getValue(User.class);
-
-                    assert user != null;
-                    assert fuser != null;
-                    if (!user.getId().equals(fuser.getUid())) {
-                        mUsers.add(user);
+    private fun searchUsers(s: String) {
+        val fuser = FirebaseAuth.getInstance().currentUser
+        val query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("search")
+            .startAt(s)
+            .endAt(s + "\uf8ff")
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                mUsers!!.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val user = snapshot.getValue(
+                        User::class.java
+                    )!!
+                    assert(fuser != null)
+                    if (user.id != fuser!!.uid) {
+                        mUsers!!.add(user)
                     }
                 }
-
-                userAdapter = new UserAdapter(getContext(), onItemClick, mUsers, false);
-                recyclerView.setAdapter(userAdapter);
+                userAdapter = UserAdapter(context, onItemClick!!, mUsers!!, false)
+                recyclerView!!.adapter = userAdapter
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
-    private void readUsers() {
-
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (search_users.getText().toString().equals("")) {
-                    mUsers.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        User user = snapshot.getValue(User.class);
-
-                        if (user != null && user.getId() != null && firebaseUser != null && !user.getId().equals(firebaseUser.getUid())) {
-                            mUsers.add(user);
+    private fun readUsers() {
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        val reference = FirebaseDatabase.getInstance().getReference("Users")
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (search_users!!.text.toString() == "") {
+                    mUsers!!.clear()
+                    for (snapshot in dataSnapshot.children) {
+                        val user = snapshot.getValue(
+                            User::class.java
+                        )
+                        if (user != null && user.id != null && firebaseUser != null && user.id != firebaseUser.uid) {
+                            mUsers!!.add(user)
                         }
                     }
-
-                    if (mUsers.size() == 0) {
-                        frameLayout.setVisibility(View.VISIBLE);
+                    if (mUsers!!.size == 0) {
+                        frameLayout!!.visibility = View.VISIBLE
                     } else {
-                        frameLayout.setVisibility(View.GONE);
+                        frameLayout!!.visibility = View.GONE
                     }
-
-                    userAdapter = new UserAdapter(getContext(), onItemClick, mUsers, false);
-                    recyclerView.setAdapter(userAdapter);
+                    userAdapter = UserAdapter(context, onItemClick!!, mUsers!!, false)
+                    recyclerView!!.adapter = userAdapter
                 }
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
 
-            }
-        });
+    companion object {
+        var onItemClick: OnItemClick? = null
+        fun newInstance(click: OnItemClick?): UsersFragment {
+            onItemClick = click
+            val args = Bundle()
+            val fragment = UsersFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

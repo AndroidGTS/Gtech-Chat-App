@@ -1,6 +1,5 @@
-package com.gtechapps.chatmessager.Notifications;
+package com.gtechapps.chatmessager.Notifications
 
-public class MyResponse {
-
-    public int success;
+class MyResponse {
+    var success = 0
 }
